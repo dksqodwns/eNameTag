@@ -1,9 +1,9 @@
 export interface Board {
     id: number;
-    nickname: string;
+    nickName: string;
     category: {
         id: number;
-        name: string;
+        categoryName: string;
     };
     text: string;
     thumbsUp: number;

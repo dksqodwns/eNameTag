@@ -7,6 +7,7 @@ export const MainBottomComponent = () => {
     const [category, setCategory] = useState('');
     const [text, setText] = useState('');
     const navigate = useNavigate();
+
     const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setCategory(e.target.value);
     }
@@ -20,9 +21,14 @@ export const MainBottomComponent = () => {
     const onSubmit = (e: any) => {
         e.preventDefault();
         axios.post(
-            `http://localhost:3000/api/bjahn/board`, {nickName, category, text}
+            `http://localhost:4000/api/bjahn/board`, {
+                nickName,
+                category,
+                text
+            }, {headers: {'Content-Type': 'application/json'}}
         ).then((res) => {
-            navigate('/')
+            console.log("res: ", res)
+            window.location.reload();
         }).catch((err) => {
             alert("게시글 작성 중 문제가 발생했습니다.")
             console.log("error: ", err)
@@ -53,9 +59,10 @@ export const MainBottomComponent = () => {
                         onChange={handleCategoryChange}
                     >
                         <option value="">카테고리 선택</option>
-                        <option value="book">책</option>
-                        <option value="music">음악</option>
-                        <option value="hobby">취미</option>
+                        <option value={2}>any</option>
+                        <option value={3}>책</option>
+                        <option value={4}>음악</option>
+                        <option value={5}>취미</option>
                     </select>
                 </div>
             </div>
