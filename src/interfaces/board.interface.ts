@@ -7,4 +7,5 @@ export interface Board {
     };
     text: string;
     thumbsUp: number;
+    createdAt: string;
 }

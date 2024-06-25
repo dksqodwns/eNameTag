@@ -8,7 +8,7 @@ export const MainTableComponent = () => {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:4000/api/bjahn/board`)
+            .get(`http://aiservicelab.yongin.ac.kr/api/bjahn/board`)
             .then((res) => {
                 console.log("res: ", res);
                 setBoards(res.data);
@@ -16,7 +16,33 @@ export const MainTableComponent = () => {
             .catch(err => console.log(err));
     }, []);
 
-    const filterBoard = selectedCategory === 1 ? boards : boards.filter(board => board.category.id === selectedCategory);
+    const filterBoards = selectedCategory === 1 ? boards : boards.filter(board => board.category.id === selectedCategory);
+
+    const formatDate = (dateString: string) => {
+        const options: Intl.DateTimeFormatOptions = {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        };
+        return new Date(dateString).toLocaleDateString('ko-KR', options);
+    };
+
+    const handleThumbsUp = (id: number) => {
+        axios.patch(`http://aiservicelab.yongin.ac.kr/api/bjahn/board/${id}/thumbs-up`)
+            .then((res) => {
+                console.log("thumbs res: ", res);
+                const updatedBoards = boards.map((board) => {
+                    if (board.id === id) {
+                        return {...board, thumbsUp: board.thumbsUp + 1};
+                    }
+                    return board;
+                });
+                setBoards(updatedBoards);
+            })
+            .catch((err) => console.log(err));
+    };
 
     return (
         <div className="container mt-3">
@@ -28,7 +54,7 @@ export const MainTableComponent = () => {
                                 onClick={() => setSelectedCategory(1)}>전체
                         </button>
                         <button className={`btn btn-primary ${selectedCategory === 2 ? 'active' : ''}`}
-                                onClick={() => setSelectedCategory(2)}>any
+                                onClick={() => setSelectedCategory(2)}>자유
                         </button>
                         <button className={`btn btn-primary ${selectedCategory === 3 ? 'active' : ''}`}
                                 onClick={() => setSelectedCategory(3)}>책
@@ -42,17 +68,25 @@ export const MainTableComponent = () => {
                     </div>
                 </div>
                 <div className="col-12">
-                    {filterBoard.length > 0 ? (
-                        filterBoard.map((board) => (
+                    {filterBoards.length > 0 ? (
+                        filterBoards.map((board) => (
                             <div key={board.id} className="card mb-3">
                                 <div className="card-header d-flex justify-content-between align-items-center">
-                                    <h5 className="card-title mb-0">{board.nickName}</h5>
+                                    <div>
+                                        <h5 className="card-title mb-0">{board.nickName}</h5>
+                                        <small className="text-muted">{formatDate(board.createdAt)}</small>
+                                    </div>
                                     <span className="badge bg-secondary">{board.category.categoryName}</span>
                                 </div>
                                 <div className="card-body">
                                     <p className="card-text">{board.text}</p>
                                     <div className="d-flex justify-content-between align-items-center">
-                                        <div className="text-muted">👍 {board.thumbsUp}</div>
+                                        <div
+                                            className="text-muted"
+                                            onClick={() => handleThumbsUp(board.id)}
+                                            style={{cursor: 'pointer'}}>
+                                            👍 {board.thumbsUp}
+                                        </div>
                                         <button className="btn btn-outline-primary btn-sm">댓글 보기</button>
                                     </div>
                                 </div>

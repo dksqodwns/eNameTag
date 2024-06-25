@@ -1,12 +1,10 @@
 import React, {useState} from "react";
 import axios from "axios";
-import {useNavigate} from "react-router-dom";
 
 export const MainBottomComponent = () => {
     const [nickName, setNickName] = useState('');
     const [category, setCategory] = useState('');
     const [text, setText] = useState('');
-    const navigate = useNavigate();
 
     const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setCategory(e.target.value);
@@ -19,15 +17,17 @@ export const MainBottomComponent = () => {
     }
 
     const onSubmit = (e: any) => {
+        const random = Math.floor(Math.random() * 100) + 1;
         e.preventDefault();
+        const fixedNickName = nickName ? nickName : `익명의 개발자 ${random}`;
+        const fixedCategory = category ? category : "2";
         axios.post(
-            `http://localhost:4000/api/bjahn/board`, {
-                nickName,
-                category,
+            `http://aiservicelab.yongin.ac.kr/api/bjahn/board`, {
+                nickName: fixedNickName,
+                category: fixedCategory,
                 text
             }, {headers: {'Content-Type': 'application/json'}}
         ).then((res) => {
-            console.log("res: ", res)
             window.location.reload();
         }).catch((err) => {
             alert("게시글 작성 중 문제가 발생했습니다.")
@@ -59,7 +59,7 @@ export const MainBottomComponent = () => {
                         onChange={handleCategoryChange}
                     >
                         <option value="">카테고리 선택</option>
-                        <option value={2}>any</option>
+                        <option value={2}>자유</option>
                         <option value={3}>책</option>
                         <option value={4}>음악</option>
                         <option value={5}>취미</option>
