@@ -10,7 +10,6 @@ export const MainTableComponent = () => {
         axios
             .get(`http://aiservicelab.yongin.ac.kr/api/bjahn/board`)
             .then((res) => {
-                console.log("res: ", res);
                 setBoards(res.data);
             })
             .catch(err => console.log(err));
@@ -32,7 +31,6 @@ export const MainTableComponent = () => {
     const handleThumbsUp = (id: number) => {
         axios.patch(`http://aiservicelab.yongin.ac.kr/api/bjahn/board/${id}/thumbs-up`)
             .then((res) => {
-                console.log("thumbs res: ", res);
                 const updatedBoards = boards.map((board) => {
                     if (board.id === id) {
                         return {...board, thumbsUp: board.thumbsUp + 1};
