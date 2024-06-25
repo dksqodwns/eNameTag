@@ -8,7 +8,7 @@ export const MainTableComponent = () => {
 
     useEffect(() => {
         axios
-            .get(`http://aiservicelab.yongin.ac.kr/api/bjahn/board`)
+            .get(`http://localhost:4000/api/bjahn/board`)
             .then((res) => {
                 setBoards(res.data);
             })
@@ -29,7 +29,7 @@ export const MainTableComponent = () => {
     };
 
     const handleThumbsUp = (id: number) => {
-        axios.patch(`http://aiservicelab.yongin.ac.kr/api/bjahn/board/${id}/thumbs-up`)
+        axios.patch(`http://localhost:4000/api/bjahn/board/${id}/thumbs-up`)
             .then((res) => {
                 const updatedBoards = boards.map((board) => {
                     if (board.id === id) {

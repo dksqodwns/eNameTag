@@ -6,7 +6,7 @@ export const MainBodyComponent = () => {
                     Introduce
                 </div>
                 <div className={"col-12 col-md-2 d-flex justify-content-center align-items-center"}>
-                    <img className={"img-fluid rounded-circle"} src="http://aiservicelab.yongin.ac.kr/public/profile.jpg" alt="profile"/>
+                    <img className={"img-fluid rounded-circle"} src="../../public/img/profile.jpg" alt="profile"/>
                 </div>
                 <div className={"col-12 col-md-8 mt-3 mt-md-0"}>
                     <div className="fw-bold">
