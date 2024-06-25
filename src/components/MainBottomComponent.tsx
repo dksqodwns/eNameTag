@@ -22,7 +22,7 @@ export const MainBottomComponent = () => {
         const fixedNickName = nickName ? nickName : `익명의 개발자 ${random}`;
         const fixedCategory = category ? category : "2";
         axios.post(
-            `http://localhost:4000/api/bjahn/board`, {
+            `http://220.66.64.130:3000/api/bjahn/board`, {
                 nickName: fixedNickName,
                 category: fixedCategory,
                 text
